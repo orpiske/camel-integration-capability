@@ -136,15 +136,7 @@ class WanakuCamelRouteLoaderIT {
 
     @Test
     void emptyRouteDefinitionsCanContinueInLenientMode() throws Exception {
-        Path routesFile = Path.of("src", "test", "resources", "empty-routes.camel.yaml");
-        Path dependenciesFile = Path.of("src", "test", "resources", "test-routes-dependencies.txt");
-
-        Map<ResourceType, Path> downloadedResources = Map.of(
-                ResourceType.ROUTES_REF, routesFile,
-                ResourceType.DEPENDENCY_REF, dependenciesFile);
-
-        WanakuCamelManager lenientCamelManager = new WanakuCamelManager(
-                downloadedResources, null, null, 0, WanakuCamelManager.RouteLoadingFailurePolicy.LOG_AND_CONTINUE);
+        WanakuCamelManager lenientCamelManager = getLenientCamelManager();
 
         try {
             lenientCamelManager.start();
@@ -155,5 +147,18 @@ class WanakuCamelRouteLoaderIT {
         } finally {
             lenientCamelManager.stop();
         }
+    }
+
+    private static WanakuCamelManager getLenientCamelManager() {
+        Path routesFile = Path.of("src", "test", "resources", "empty-routes.camel.yaml");
+        Path dependenciesFile = Path.of("src", "test", "resources", "test-routes-dependencies.txt");
+
+        Map<ResourceType, Path> downloadedResources = Map.of(
+                ResourceType.ROUTES_REF, routesFile,
+                ResourceType.DEPENDENCY_REF, dependenciesFile);
+
+        WanakuCamelManager lenientCamelManager = new WanakuCamelManager(
+                downloadedResources, null, null, 0, WanakuCamelManager.RouteLoadingFailurePolicy.LOG_AND_CONTINUE);
+        return lenientCamelManager;
     }
 }
