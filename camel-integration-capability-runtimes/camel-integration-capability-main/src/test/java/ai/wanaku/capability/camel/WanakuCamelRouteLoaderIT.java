@@ -73,7 +73,7 @@ class WanakuCamelRouteLoaderIT {
     void routeStarted() {
         CamelContext context = camelManager.getCamelContext();
         ServiceStatus serviceStatus = context.getRouteController().getRouteStatus("test-component-resolver");
-        assertEquals(true, serviceStatus.isStarted(), "route test-component-resolver not started");
+        assertTrue(serviceStatus.isStarted(), "route test-component-resolver not started");
     }
 
     @Test
